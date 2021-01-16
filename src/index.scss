@@ -17,8 +17,11 @@ ol, ul {
 	margin-bottom: 10px;
 }
 
+$x-color: blue;
+
 .square {
 	background: #fff;
+	color: $x-color;
 	border: 1px solid #999;
 	float: left;
 	font-size: 24px;
