@@ -1,8 +1,28 @@
 body {
-	font: 14px "Century Gothic", Futura, sans-serif;
+	font: 20px "Century Gothic", Futura, sans-serif;
 	margin: 20px;
 }
 
 ol, ul {
 	padding-left: 30px;
+}
+
+nav li {
+  display: inline;
+  padding-right: 30px;
+  font-size: 30px;
+  color: black;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #4a2;
+}
+
+.main {
+  padding: 30px;
 }

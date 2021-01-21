@@ -1,5 +1,5 @@
 import React from "react";
-import "./TicTac.scss";
+import "./TicTac.sass";
 
 
 function Square(props) {

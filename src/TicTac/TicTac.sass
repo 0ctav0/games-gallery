@@ -1,0 +1,44 @@
+.board-row:after 
+	clear: both
+	content: ""
+	display: table
+
+
+.status 
+	margin-bottom: 10px
+
+
+$x-color: black
+
+.square 
+	background: #eee
+	color: $x-color
+	border: 1px solid #999
+	float: left
+	font-size: 37px
+	font-weight: bold
+	line-height: 34px
+	height: 64px
+	width: 64px
+	margin-right: -1px
+	margin-top: -1px
+	padding: 0
+	text-align: center
+
+
+
+.square:focus 
+	outline: none
+
+
+.kbd-navigation .square:focus 
+	background: #ddd
+
+
+.game 
+	display: flex
+	flex-direction: row
+
+
+.game-info 
+	margin-left: 30px
