@@ -11,8 +11,7 @@ import {
 import "./index.scss";
 
 import TicTac from "./TicTac/TicTac.js";
-import Minesweeper from "./Minesweeper/Minesweeper.js"
-
+import Minesweeper from "./Minesweeper/Minesweeper.js";
 
 function Home() {
   return <div>
@@ -35,7 +34,9 @@ ReactDOM.render((
       <Switch>
         <Route exact path="/"      component={Home}/>
         <Route path="/tic-tac"     component={TicTac}/>
-        <Route path="/minesweeper" component={Minesweeper}/>
+        <Route path="/minesweeper">
+          <Minesweeper col={9} row={7}/>
+        </Route>
       </Switch>
       </div>
     </div>
