@@ -1,20 +1,46 @@
 .minesweeper {
+
+  $border: 1px solid #555;
+  $cell-color: #aaa;
+  $opened-color: #ccc;
+  $hover-color: #a42;
+
   display: flex;
   justify-content: center;
 
   .field {
     display: inline-flex;
+    border: $border;
   }
 
   .cell {
     width: 50px;
     height: 50px;
-    background: #aaa;
-    border: 1px solid #555;
+    background-color: $cell-color;
+    border: $border;
     user-select: none;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 7px;
+    font-size: 30px;
   }
 
-  .cell:hover {
-    background: #a42;
-  } 
+  .cell:hover:not(.opened) {
+    background-color: $hover-color;
+  }
+
+  .opened {
+    background-color: $opened-color;
+    border: none;
+  }
+
+  .mine {
+    background-image: url("mine.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+
+  .mine:hover {
+    // background: none;
+  }
 }

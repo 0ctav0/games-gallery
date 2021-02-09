@@ -35,7 +35,7 @@ ReactDOM.render((
         <Route exact path="/"      component={Home}/>
         <Route path="/tic-tac"     component={TicTac}/>
         <Route path="/minesweeper">
-          <Minesweeper col={9} row={7}/>
+          <Minesweeper col={9} row={7} minesCount={10}/>
         </Route>
       </Switch>
       </div>
