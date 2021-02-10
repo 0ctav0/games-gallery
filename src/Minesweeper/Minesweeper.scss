@@ -5,12 +5,26 @@
   $opened-color: #ccc;
   $hover-color: #a42;
 
+  @mixin setBackgroundImg($imgName) {
+    background-image: url($imgName);
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+
   display: flex;
   justify-content: center;
 
   .field {
     display: inline-flex;
     border: $border;
+    position: absolute;
+  }
+
+  .splash-screen {
+    background-color: #f555;
+    width: 100px;
+    height: 100px;
+    position: absolute;
   }
 
   .cell {
@@ -25,7 +39,7 @@
     font-size: 30px;
   }
 
-  .cell:hover:not(.opened) {
+  .cell:hover:not(.opened):not(.flag) {
     background-color: $hover-color;
   }
 
@@ -35,12 +49,10 @@
   }
 
   .mine {
-    background-image: url("mine.svg");
-    background-size: 100%;
-    background-repeat: no-repeat;
+    @include setBackgroundImg("mine.svg");
   }
 
-  .mine:hover {
-    // background: none;
+  .flag {
+    @include setBackgroundImg("flag.svg");
   }
 }
