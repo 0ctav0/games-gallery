@@ -20,6 +20,38 @@ function Home() {
     </div>;
 }
 
+class MinesweeperManager extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      id: 0,
+      col: 12,
+      row: 10,
+      minesQnt: 10,
+    };
+  }
+
+  changeHandler(e, prop) {
+    this.setState({
+      id: Math.random(),
+      [prop]: e.target.value
+    });
+  }
+
+  render() {
+    return <div id="minesweeper-manager">
+      <div>
+        <label>Columns<input type="number" value={this.state.col} onChange={e => this.changeHandler(e, "col")}/></label>
+        <label>Rows<input type="number" value={this.state.row} onChange={e => this.changeHandler(e, "row")}/></label>
+        <label>Mines quantity<input type="number" value={this.state.minesQnt} onChange={e => this.changeHandler(e, "minesQnt")}/></label>
+      </div>
+      <Minesweeper key={this.state.id} col={this.state.col} row={this.state.row} minesQnt={this.state.minesQnt}/>
+    </div>
+  }
+}
+
 ReactDOM.render((
   <BrowserRouter>
     <div>
@@ -35,7 +67,7 @@ ReactDOM.render((
         <Route exact path="/"      component={Home}/>
         <Route path="/tic-tac"     component={TicTac}/>
         <Route path="/minesweeper">
-          <Minesweeper col={12} row={10} minesCount={20}/>
+          <MinesweeperManager/>
         </Route>
       </Switch>
       </div>

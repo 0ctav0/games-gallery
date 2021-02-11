@@ -13,18 +13,42 @@
 
   display: flex;
   justify-content: center;
+  padding: 5px;
 
   .field {
     display: inline-flex;
     border: $border;
-    position: absolute;
+    // position: absolute;
   }
 
   .splash-screen {
-    background-color: #f555;
-    width: 100px;
-    height: 100px;
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      font-size: 30px;
+    }
+
+    button {
+      padding: 5px 20px;
+      background-color: #888;
+      border: $border;
+      border-radius: 5px;
+      color: white;
+      font-size: 30px;
+      user-select: none;
+    }
+
+    button:hover {
+      color: #ff2;
+    }
+
+    button:focus {
+      outline: none;
+    }
   }
 
   .cell {
