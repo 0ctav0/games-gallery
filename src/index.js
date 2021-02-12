@@ -30,6 +30,7 @@ class MinesweeperManager extends React.Component {
       col: 12,
       row: 10,
       minesQnt: 10,
+      flags: 0,
     };
   }
 
@@ -40,14 +41,25 @@ class MinesweeperManager extends React.Component {
     });
   }
 
+  onChangeData(data) {
+    this.setState({flags: data.flags});
+  }
+
   render() {
     return <div id="minesweeper-manager">
       <div>
         <label>Columns<input type="number" value={this.state.col} onChange={e => this.changeHandler(e, "col")}/></label>
         <label>Rows<input type="number" value={this.state.row} onChange={e => this.changeHandler(e, "row")}/></label>
         <label>Mines quantity<input type="number" value={this.state.minesQnt} onChange={e => this.changeHandler(e, "minesQnt")}/></label>
+        <label>Flags: {this.state.flags}</label>
       </div>
-      <Minesweeper key={this.state.id} col={this.state.col} row={this.state.row} minesQnt={this.state.minesQnt}/>
+      <Minesweeper 
+        key={this.state.id} 
+        col={this.state.col} 
+        row={this.state.row} 
+        minesQnt={this.state.minesQnt} 
+        onChangeData={(data) => this.onChangeData(data)}
+      />
     </div>
   }
 }

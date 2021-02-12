@@ -24,8 +24,10 @@ class Minesweeper extends React.Component {
     };
 
     this.state = {
-      mineField : this.createMineField(props),
+      mineField : undefined,
       cellsNeedToOpen: props.col * props.row - props.minesQnt,
+      outputData: {flags: 0},
+      lastX: 0, lastY: 0,
       splash,
     };
 
@@ -37,7 +39,7 @@ class Minesweeper extends React.Component {
     this.cellRefs[x][y].current.setState({cell});
   }
 
-  createMineField(props) {
+  createMineField(props, skipX, skipY) {
     const mineField = [];
     for (let x = 0; x < props.col; x++) {
       const column = [];
@@ -51,6 +53,7 @@ class Minesweeper extends React.Component {
     while (i < props.minesQnt) {
       const x = randomInt(0, props.col - 1);
       const y = randomInt(0, props.row - 1);
+      if (x === skipX && y === skipY) continue;
       const cell = mineField[x][y];
       if (cell.isEmpty()) {
         cell.value = CellModel.MINE;
@@ -85,6 +88,11 @@ class Minesweeper extends React.Component {
   }
 
   clickHandler(originX, originY) {
+    this.setState({lastX: originX, lastY: originY});
+    if (this.state.mineField === undefined) {
+      this.setState({mineField: this.createMineField(this.props, originX, originY)});
+      return;
+    } 
     const cell = this.state.mineField[originX][originY];
     if (cell.flag) {
 
@@ -104,15 +112,20 @@ class Minesweeper extends React.Component {
     const cell = this.state.mineField[x][y];
     cell.flag = !cell.flag;
     this.updateCell(cell, x, y);
+    const outputData = {
+      flags: this.state.outputData.flags + (cell.flag ? 1 : -1)
+    };
+    this.setState({outputData});
   }
 
   restart() {
-    const mineField = this.createMineField(this.props);
+    const mineField = undefined;
     const splash = this.state.splash;
     splash.show = false;
     this.setState({
       mineField,
       cellsNeedToOpen: this.props.col * this.props.row - this.props.minesQnt,
+      outputData: {flags: 0},
       splash
     });
   }
@@ -169,6 +182,12 @@ class Minesweeper extends React.Component {
         this.showSplash(SplashScreen.WIN);
       }
     }
+    if (this.state.outputData !== prevState.outputData) {
+      this.props.onChangeData(this.state.outputData);
+    }
+    if (this.state.mineField !== prevState.mineField && prevState.mineField === undefined) {
+      this.clickHandler(this.state.lastX, this.state.lastY);
+    }
   }
 
   render() {
@@ -192,7 +211,7 @@ class Minesweeper extends React.Component {
             ys.map(y => {
               return <Cell 
                 key={[x,y]}
-                cell={this.state.mineField[x][y]}
+                cell={this.state.mineField === undefined ? CellModel.PLUG : this.state.mineField[x][y]}
                 ref={this.cellRefs[x][y]}
                 onClick={() => this.clickHandler(x,y)}
                 onContextMenu={e => this.rightClickHandler(e,x,y)}

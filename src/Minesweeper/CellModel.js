@@ -25,5 +25,6 @@ class CellModel {
 }
 CellModel.EMPTY = 0;
 CellModel.MINE = 1;
+CellModel.PLUG = new CellModel(CellModel.EMPTY);
 
 export default CellModel;
