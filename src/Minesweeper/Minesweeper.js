@@ -109,6 +109,9 @@ class Minesweeper extends React.Component {
 
   rightClickHandler(event, x, y) {
     event.preventDefault();
+    if (this.state.mineField === undefined) {
+      return;
+    }
     const cell = this.state.mineField[x][y];
     cell.flag = !cell.flag;
     this.updateCell(cell, x, y);
