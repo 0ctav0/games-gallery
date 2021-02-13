@@ -5,19 +5,26 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Link
+  NavLink
 } from "react-router-dom";
 
 import "./index.scss";
 
 import TicTac from "./TicTac/TicTac.js";
 import Minesweeper from "./Minesweeper/Minesweeper.js";
+import PyramidBuild from "./PyramidBuild/PyramidBuild.tsx";
 
 function Home() {
   return <div>
       <h1>Welcome to games gallery</h1>
       <p>You can play in different games. This site created using React framework.</p>
     </div>;
+}
+
+function NotFound() {
+  return <div>
+    <h1>Page not found!</h1>
+  </div>;
 }
 
 class MinesweeperManager extends React.Component {
@@ -69,9 +76,10 @@ ReactDOM.render((
     <div>
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/tic-tac">Tic Tac</Link></li>
-          <li><Link to="/minesweeper">Minesweeper</Link></li>
+          <li><NavLink exact={true} activeClassName={"selected"} to="/">Home</NavLink></li>
+          <li><NavLink activeClassName={"selected"} to="/tic-tac">Tic Tac</NavLink></li>
+          <li><NavLink activeClassName={"selected"} to="/minesweeper">Minesweeper</NavLink></li>
+          <li><NavLink activeClassName={"selected"} to="/pyramid-build">Pyramid Build</NavLink></li>
         </ul>
       </nav>
       <div className="main">
@@ -81,6 +89,10 @@ ReactDOM.render((
         <Route path="/minesweeper">
           <MinesweeperManager/>
         </Route>
+        <Route path="/pyramid-build">
+          <PyramidBuild/>
+        </Route>
+        <Route component={NotFound}/>
       </Switch>
       </div>
     </div>
