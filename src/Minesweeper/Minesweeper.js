@@ -1,12 +1,9 @@
 import React from "react";
 import "./Minesweeper.scss";
+import Utils from "../Utils/Utils.ts";
 import Cell from "./Cell.js";
 import CellModel from "./CellModel.js";
 import SplashScreen from "./SplashScreen.js";
-
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 /** 
   * @param props.col - number of columns; row - number of rows; minesQnt 
@@ -51,8 +48,8 @@ class Minesweeper extends React.Component {
 
     let i = 0;
     while (i < props.minesQnt) {
-      const x = randomInt(0, props.col - 1);
-      const y = randomInt(0, props.row - 1);
+      const x = Utils.randomInt(0, props.col - 1);
+      const y = Utils.randomInt(0, props.row - 1);
       if (x === skipX && y === skipY) continue;
       const cell = mineField[x][y];
       if (cell.isEmpty()) {
