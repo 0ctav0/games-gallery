@@ -60,13 +60,51 @@ class MinesweeperManager extends React.Component {
         <label>Mines quantity<input type="number" value={this.state.minesQnt} onChange={e => this.changeHandler(e, "minesQnt")}/></label>
         <label>Flags: {this.state.flags}</label>
       </div>
-      <Minesweeper 
-        key={this.state.id} 
-        col={this.state.col} 
-        row={this.state.row} 
-        minesQnt={this.state.minesQnt} 
+      <Minesweeper
+        key={this.state.id}
+        col={this.state.col}
+        row={this.state.row}
+        minesQnt={this.state.minesQnt}
         onChangeData={(data) => this.onChangeData(data)}
       />
+    </div>
+  }
+}
+
+class PyramidBuildManager extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      id: 0,
+      level: 1,
+    }
+  }
+
+  onFail = () => {
+    console.log("fail");
+  }
+
+  onWin = () => {
+    console.log("win");
+    this.setState(prevState => ({
+      id: Math.random(),
+      level: prevState.level + 1
+    }));
+  }
+
+  onLost = () => {
+    console.log("lost");
+    this.setState(prevState => ({
+      id: Math.random(),
+      level: prevState.level > 1 ? prevState.level - 1 : prevState.level,
+    }))
+  }
+
+  render() {
+    return <div>
+      <PyramidBuild key={this.state.id} level={this.state.level} onFail={this.onFail} onLost={this.onLost} onWin={this.onWin}/>
     </div>
   }
 }
@@ -90,7 +128,7 @@ ReactDOM.render((
           <MinesweeperManager/>
         </Route>
         <Route path="/pyramid-build">
-          <PyramidBuild/>
+          <PyramidBuildManager/>
         </Route>
         <Route component={NotFound}/>
       </Switch>

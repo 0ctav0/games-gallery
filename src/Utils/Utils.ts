@@ -7,7 +7,6 @@ class Utils {
   static randomSort(arr: string[]) {
     return arr.sort((a,b) => Utils.randomInt(0, 1) > 0 ? 1 : -1);
   }
-
 }
 
 export default Utils;

@@ -8,20 +8,25 @@ console.log(allWords, "count:",allWords.reduce((wordsNumber,category) => wordsNu
 
 interface IProps {
 
+  level: number;
+
+  onFail(): void;
+  onWin(): void;
+  onLost(): void;
 }
 
 interface IState {
   words: string[];
   wordsInRoom: string[];
   i: number;
+  selectedWordIndex: number;
   word: string;
   hideStartBtn: boolean;
-  level: number;
 }
 
 class PyramidBuild extends React.Component<IProps, IState> {
 
-  static readonly delay: number = 1000;
+  static readonly delay: number = 100;
   static readonly wordsPerLevel: number = 2;
   static readonly startWordsNumber: number = 3;
   static readonly wordsInRoomNumber: number = 8;
@@ -30,22 +35,24 @@ class PyramidBuild extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      level: 1,
       words: [],
       wordsInRoom: [],
-      i: 0, word: "", hideStartBtn: false,
+      i: 0,
+      selectedWordIndex: 0,
+      word: "",
+      hideStartBtn: false,
     };
 
   }
 
-  initWords() {
+  initWords(): void {
     this.setState({words:
       Utils.randomSort(allWords.flat())
-      .slice(0, PyramidBuild.startWordsNumber + this.state.level * PyramidBuild.wordsPerLevel)
+      .slice(0, PyramidBuild.startWordsNumber + this.props.level * PyramidBuild.wordsPerLevel)
     });
   }
 
-  initWordsForRoom() {
+  initWordsForRoom(): string[] {
     const wordsNumber = this.state.words.length;
     const roomSize = PyramidBuild.wordsInRoomNumber;
     const divs = Math.ceil(wordsNumber / roomSize);
@@ -57,16 +64,16 @@ class PyramidBuild extends React.Component<IProps, IState> {
     return wordsInRoom.flat();
   }
 
-  start() {
+  start(): void {
     this.setState({hideStartBtn: true});
     this.initWords();
   }
 
-  nextWord() {
+  nextWord(): void {
     setTimeout(() => {
       if (this.state.i < this.state.words.length) {
         this.setState({word: this.state.words[this.state.i]});
-        this.setState((prevState, props) => ({i : prevState.i + 1}));
+        this.setState(prevState => ({i : prevState.i + 1}));
         this.nextWord();
       }
       else {  // Finish last word
@@ -75,22 +82,59 @@ class PyramidBuild extends React.Component<IProps, IState> {
     }, this.state.i === 0 ? 0 : PyramidBuild.delay);
   }
 
-  componentDidUpdate(prevProps: IProps, prevState: IState) {
+  componentDidUpdate(prevProps: IProps, prevState: IState): void {
+    console.log("update");
     if (this.state.words !== prevState.words) {
       this.nextWord();
     }
+    if (this.state.wordsInRoom.length !== prevState.wordsInRoom.length && this.state.wordsInRoom.length === 0) {
+      this.props.onWin();
+    }
   }
 
-  render() {
+
+
+  getCenteredContent(): React.ReactElement {
+    if (!this.state.hideStartBtn) {
+      return <div className="word" onClick={() => this.start()}>Start</div>
+    }
+    else if (this.state.i < this.state.words.length) {
+      return <div className="word">{this.state.word}</div>
+    }
+    return <div></div>
+  }
+
+  selectWordHandler = (e: React.MouseEvent): void => {
+    const word = (e.target as HTMLElement).innerText;
+    if (word === this.state.words[this.state.selectedWordIndex]) {
+      const splicedWordsInRoom = this.state.wordsInRoom.slice();  // make copy
+      splicedWordsInRoom.splice(splicedWordsInRoom.indexOf(word), 1);  // delete the word
+      this.setState(prevState => ({
+        wordsInRoom: splicedWordsInRoom,
+        selectedWordIndex: prevState.selectedWordIndex + 1
+      }));
+    }
+    else { // fail
+      this.props.onFail();
+      this.props.onLost();
+    }
+  }
+
+  render(): React.ReactElement {
     return (
-      // <p>{selectedWords.join(" ")}</p>
-      <div className="pyramid-build">
-        <h2 >{this.state.word}</h2>
-        <button onClick={() => this.start()} style={{display: this.state.hideStartBtn ? "none" : ""}}>Start</button>
-        <div className="room">
-          {this.state.wordsInRoom.map((word,i) => <div key={i} className="word">{word}</div>)}
+        <div className="pyramid-build">
+          <div className="centered">{this.getCenteredContent()}</div>
+          <div className="room">
+            {this.state.wordsInRoom.slice(0, PyramidBuild.wordsInRoomNumber).map((word, i) =>
+                <div
+                    key={i}
+                    className="word"
+                    onClick={this.selectWordHandler}
+                    style={{animation: `fadeIn 1s`}}
+                >{word}</div>
+            )}
+          </div>
         </div>
-      </div>
     );
   }
 }
