@@ -1,0 +1,38 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "react-app",
+    "plugin:react/recommended"
+  ],
+  "plugins": ["react"],
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "semi": ["error", "always"],
+    "no-use-before-define": "off"
+  },
+
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "plugins": ["react", "@typescript-eslint"],
+      "env": {
+        "browser": true,
+        "jasmine": true,
+        "jest": true
+      },
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "@typescript-eslint/no-explicit-any": 0
+      }
+    }
+  ]
+}

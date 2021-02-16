@@ -1,12 +1,19 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class SplashScreen extends React.Component {
+
+  static propTypes = {
+    splash: PropTypes.object.isRequired,
+    restart: PropTypes.func.isRequired,
+  }
+
   render() {
     const splash = this.props.splash;
     return (
-      <div className="splash-screen" 
-        style={{...splash.size, 
-          ...{display: (splash.show ? "" : "none"), 
+      <div className="splash-screen"
+        style={{...splash.size,
+          ...{display: (splash.show ? "" : "none"),
               backgroundColor: splash.color
           }
         }}

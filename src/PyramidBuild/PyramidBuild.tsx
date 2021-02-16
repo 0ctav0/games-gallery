@@ -92,16 +92,14 @@ class PyramidBuild extends React.Component<IProps, IState> {
     }
   }
 
-
-
   getCenteredContent(): React.ReactElement {
     if (!this.state.hideStartBtn) {
-      return <div className="word" onClick={() => this.start()}>Start</div>
+      return <div className="word" onClick={() => this.start()}>Start</div>;
     }
     else if (this.state.i < this.state.words.length) {
-      return <div className="word">{this.state.word}</div>
+      return <div className="word">{this.state.word}</div>;
     }
-    return <div></div>
+    return <div></div>;
   }
 
   selectWordHandler = (e: React.MouseEvent): void => {

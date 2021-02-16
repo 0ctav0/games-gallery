@@ -67,7 +67,7 @@ class MinesweeperManager extends React.Component {
         minesQnt={this.state.minesQnt}
         onChangeData={(data) => this.onChangeData(data)}
       />
-    </div>
+    </div>;
   }
 }
 
@@ -79,7 +79,7 @@ class PyramidBuildManager extends React.Component {
     this.state = {
       id: 0,
       level: 1,
-    }
+    };
   }
 
   onFail = () => {
@@ -99,13 +99,13 @@ class PyramidBuildManager extends React.Component {
     this.setState(prevState => ({
       id: Math.random(),
       level: prevState.level > 1 ? prevState.level - 1 : prevState.level,
-    }))
+    }));
   }
 
   render() {
     return <div>
       <PyramidBuild key={this.state.id} level={this.state.level} onFail={this.onFail} onLost={this.onLost} onWin={this.onWin}/>
-    </div>
+    </div>;
   }
 }
 

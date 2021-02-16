@@ -1,14 +1,20 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Minesweeper.scss";
 import Utils from "../Utils/Utils.ts";
 import Cell from "./Cell.js";
 import CellModel from "./CellModel.js";
 import SplashScreen from "./SplashScreen.js";
 
-/** 
-  * @param props.col - number of columns; row - number of rows; minesQnt 
-  */
+
 class Minesweeper extends React.Component {
+
+  static propTypes = {
+    col: PropTypes.number.isRequired,
+    row: PropTypes.number.isRequired,
+    minesQnt: PropTypes.number.isRequired,
+    onChangeData: PropTypes.func,
+  }
 
   constructor(props) {
     super(props);
@@ -78,7 +84,7 @@ class Minesweeper extends React.Component {
       show: true,
       color: splashStatus.color,
       title: splashStatus.title,
-    }
+    };
     this.setState({
       splash
     });
@@ -89,10 +95,10 @@ class Minesweeper extends React.Component {
     if (this.state.mineField === undefined) {
       this.setState({mineField: this.createMineField(this.props, originX, originY)});
       return;
-    } 
+    }
     const cell = this.state.mineField[originX][originY];
     if (cell.flag) {
-
+      return;
     }
     else if (cell.hasMine()) {
       cell.opened = true;
@@ -172,7 +178,7 @@ class Minesweeper extends React.Component {
       show: this.state.show,
       color: this.state.color,
       title: this.state.title,
-    }
+    };
     this.setState({splash});
   }
 
@@ -191,7 +197,6 @@ class Minesweeper extends React.Component {
   }
 
   render() {
-
     const xs = [];
     for (let x = 0; x < this.props.col; x++) {
       xs.push(x);
@@ -209,16 +214,16 @@ class Minesweeper extends React.Component {
           return <div key={x} className="col">
           {
             ys.map(y => {
-              return <Cell 
+              return <Cell
                 key={[x,y]}
                 cell={this.state.mineField === undefined ? CellModel.PLUG : this.state.mineField[x][y]}
                 ref={this.cellRefs[x][y]}
                 onClick={() => this.clickHandler(x,y)}
                 onContextMenu={e => this.rightClickHandler(e,x,y)}
-              />
+              />;
             })
           }
-          </div>
+          </div>;
         })
       }
       </div></div>

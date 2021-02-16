@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./TicTac.sass";
-
 
 function Square(props) {
   return (
@@ -9,12 +9,16 @@ function Square(props) {
     </button>
   );
 }
+Square.propTypes = {
+  value: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+};
 
 class Board extends React.Component {
 
   renderSquare(i) {
     return (
-      <Square 
+      <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
@@ -43,6 +47,10 @@ class Board extends React.Component {
     );
   }
 }
+Board.propTypes = {
+  squares: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 class TicTac extends React.Component {
 
@@ -61,7 +69,7 @@ class TicTac extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    if (this.calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
@@ -81,10 +89,30 @@ class TicTac extends React.Component {
     });
   }
 
+  calculateWinner(squares) {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a];
+      }
+    }
+    return null;
+  }
+
   render() {
     const history = this.state.history;
     const current = history[history.length - 1];
-    const winner = calculateWinner(current.squares);
+    const winner = this.calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
       const desc = move ?
@@ -121,25 +149,7 @@ class TicTac extends React.Component {
   }
 }
 
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
+
 
 
 export default TicTac;
